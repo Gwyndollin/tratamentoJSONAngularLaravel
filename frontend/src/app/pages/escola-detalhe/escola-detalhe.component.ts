@@ -82,7 +82,6 @@ export class EscolaDetalheComponent implements OnInit {
     });
   }
 
-  // aulas da turma (turma em Aulas é o id_externo)
   getAulasDaTurma(turmaId: number) {
     const ordemDias = ['SEG', 'TER', 'QUA', 'QUI', 'SEX'];
     return this.aulas
