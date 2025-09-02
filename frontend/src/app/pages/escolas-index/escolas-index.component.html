@@ -1,0 +1,25 @@
+<div class="index-page">
+  <h2 class="title">Bem vindo</h2>
+
+  <div class="topbar">
+    <a routerLink="/criarEscola" class="btn-add">Adicionar Escola</a>
+  </div>
+
+  <div *ngIf="loading">Carregando…</div>
+  <div *ngIf="error" class="erro">{{ error }}</div>
+  <div *ngIf="message" class="ok">{{ message }}</div>
+
+  <ul *ngIf="!loading && escolas.length" class="school-list">
+    <li *ngFor="let e of escolas" class="school-item">
+      <span class="school-name">{{ e.nome_escola }}</span>
+      <div class="actions">
+        <a [routerLink]="['/escolas', e.id]" class="btn-view">Ver detalhes</a>
+        <button type="button" class="btn-remove" (click)="remover(e.id)">X</button>
+      </div>
+    </li>
+  </ul>
+
+  <div *ngIf="!loading && !escolas.length" class="empty">
+    Nenhuma escola encontrada.
+  </div>
+</div>

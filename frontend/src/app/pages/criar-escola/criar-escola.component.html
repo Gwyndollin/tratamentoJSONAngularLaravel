@@ -1,0 +1,34 @@
+<div class="page">
+  <a routerLink="/escolas" class="btn-voltar">voltar</a>
+
+  <h2 class="title">Adicionar nova escola</h2>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" class="form-box">
+    <input
+      type="text"
+      formControlName="nome"
+      placeholder="Nome da escola"
+      required
+    />
+
+    <input
+      type="file"
+      (change)="onFileChange($event)"
+      accept=".json"
+      required
+      class="file-input"
+    />
+
+    <button type="submit" [disabled]="form.invalid || !selectedFile" class="btn-submit">
+      Enviar
+    </button>
+  </form>
+
+  <div *ngIf="message" class="message">{{ message }}</div>
+
+  <div *ngIf="validationErrors" class="erro">
+    <div *ngFor="let kv of (validationErrors | keyvalue)">
+    <strong>{{ kv.key }}:</strong> {{ kv.value.join(' ') }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<h2>Exemplo de Consumo da API</h2>
+
+<div *ngIf="loading">Carregando…</div>
+<div *ngIf="error" class="erro">{{ error }}</div>
+
+<label>
+    Escola:
+    <select [value]="selectedEscolaId" (change)="onTrocarEscola($event)">
+        <option *ngFor="let e of escolas" [value]="e.id">
+            {{ e.id }} - {{ e.nome_escola }}
+        </option>
+    </select>
+</label>
+
+<h3>Escolas (debug JSON)</h3>
+<pre>{{ escolas | json }}</pre>
+
+<h3>Turmas</h3>
+<ul>
+    <li *ngFor="let t of turmas">
+        {{ t.id }} - {{ t.nome }} ({{ t.codigo_externo }}) pend: {{ t.pendencia }}
+    </li>
+</ul>
+
+<h3>Professores</h3>
+<ul>
+    <li *ngFor="let p of professores">
+        {{p.id}} - {{p.nome}} ({{p.codigo_externo}})
+    </li>
+</ul>
+
+<h3>Disciplinas</h3>
+<ul>
+    <li *ngFor="let d of disciplinas">
+        {{d.id}} - {{d.nome}} ({{d.codigo_externo}})
+    </li>
+</ul>
+
+<h3>Aulas</h3>
+<ul>
+    <li *ngFor="let a of aulas">
+        #{{ a.id }} {{ a.dia }} {{ a.horario_inicio }}–{{ a.horario_termino }}
+        | turma: {{ a.turma }}
+        | profs: {{ a.professores }}
+        | disc: {{ a.disciplinas }}
+    </li>
+</ul>

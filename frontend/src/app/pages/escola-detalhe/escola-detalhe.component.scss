@@ -1,0 +1,242 @@
+/* ===== fundo geral ===== */
+body {
+  background-color: #bfbfbf;
+  /* cinza mais escuro */
+  margin: 0;
+}
+
+/* ===== layout/containers ===== */
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  /* espaçamento lateral */
+  background-color: rgb(216, 216, 216);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Esconde inputs; usamos labels como botões */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+/* Botões */
+.btn {
+  padding: 8px 14px;
+  border: 2px solid #222;
+  background: #fff;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .05s ease-in;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn[disabled] {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  background: #f54a4a;
+  color: #f0f0f0;
+  text-decoration: none;
+}
+
+/* Estado ativo das abas */
+#tabTurmas:checked~.topbar .label-turmas,
+#tabProf:checked~.topbar .label-prof {
+  box-shadow: inset 0 0 0 2px #222;
+}
+
+/* Mostrar/ocultar as views com base nas abas */
+.turmas-view,
+.professores-view {
+  display: none;
+}
+
+#tabTurmas:checked~.main .turmas-view {
+  display: block;
+}
+
+#tabTurmas:checked~.main .professores-view {
+  display: none;
+}
+
+#tabProf:checked~.main .turmas-view {
+  display: none;
+}
+
+#tabProf:checked~.main .professores-view {
+  display: block;
+}
+
+/* Títulos / chips */
+.school-title {
+  margin: 10px 0 18px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  border: 2px solid #222;
+  border-radius: 12px;
+  padding: 8px 12px;
+  background: #fff;
+}
+
+.turma-block {
+  margin: 24px 0;
+  text-align: center;
+}
+
+.turma-chip {
+  display: inline-block;
+  margin: 0 auto 16px;
+  /* separa do horário */
+  padding: 6px 12px;
+  border: 2px solid #222;
+  border-radius: 10px;
+  font-weight: 700;
+  background: #fff;
+  cursor: pointer;
+}
+
+.status {
+  text-align: center;
+  margin: 12px 0;
+}
+
+.erro {
+  color: #b00020;
+  text-align: center;
+  margin: 12px 0;
+}
+
+.centralizar {
+  display: flex;
+  justify-content: center;
+}
+
+/* ===== grade (mantendo seu estilo) ===== */
+.schedule {
+  display: grid;
+  grid-template-columns: 120px repeat(5, 1fr);
+  /* horários + 5 dias */
+  grid-auto-rows: 56px;
+  gap: 6px;
+  align-items: stretch;
+}
+
+.schedule .header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #f7f9fc;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid #e4e8ee;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.schedule .time {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #fbfcfe;
+  font-weight: 500;
+  text-align: right;
+  padding-right: 10px;
+  border: 1px solid #e4e8ee;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.schedule .cell {
+  border: 1px dashed #6bc39b;
+  border-radius: 4px;
+  background: #f9fffb;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  align-items: center;
+}
+
+.cell .disc {
+  font-weight: 700;
+  line-height: 1.2;
+  font-size: 13px;
+}
+
+.cell .prof {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.schedule .empty {
+  background: #fff;
+  border-style: solid;
+  border-color: #e9eef5;
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding: 12px;
+  }
+
+  .schedule {
+    grid-template-columns: 90px repeat(5, minmax(110px, 1fr));
+    grid-auto-rows: 64px;
+  }
+
+  .cell .disc {
+    font-size: 13px;
+  }
+}
+
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  /* espaçamento entre TURMAS e PROFESSORES */
+  margin: 20px 0 30px;
+  /* espaço em cima e embaixo */
+}
+
+.tab-buttons .btn {
+  min-width: 140px;
+  text-align: center;
+}

@@ -1,0 +1,112 @@
+<div class="page">
+  <!-- Abas: TURMAS (default) / PROFESSORES -->
+  <input id="tabTurmas" type="radio" name="view" class="visually-hidden" checked />
+  <input id="tabProf"   type="radio" name="view" class="visually-hidden" />
+
+  <!-- Topbar (apenas voltar) -->
+  <div class="topbar">
+    <a routerLink="/escolas" class="btn btn-ghost">VOLTAR</a>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div class="main">
+    <!-- Nome da escola -->
+    <div class="centralizar" *ngFor="let e of escolas">
+      <h2 *ngIf="e.id == escolaId" class="school-title">
+        {{ e.nome_escola }}
+      </h2>
+    </div>
+
+    <!-- Botões de abas, centralizados e com espaço -->
+    <div class="tab-buttons">
+      <label for="tabTurmas" class="btn tab">TURMAS</label>
+      <label for="tabProf"   class="btn tab">PROFESSORES</label>
+    </div>
+
+    <!-- ====== TURMAS (visível quando TURMAS está selecionado) ====== -->
+    <div class="turmas-view">
+      <section *ngFor="let t of turmas; let i = index" class="turma-block">
+        <!-- Toggle individual da turma (mostra/esconde a grade desta turma) -->
+        <input id="toggleTurma{{ i }}" type="checkbox" class="visually-hidden" />
+        <label for="toggleTurma{{ i }}" class="turma-chip">{{ t.nome }}</label>
+
+        <div class="turma-schedule">
+          <div class="schedule">
+            <!-- Cabeçalhos -->
+            <div class="header time">Horário</div>
+            <div class="header" *ngFor="let d of ['SEG','TER','QUA','QUI','SEX']">
+              {{ d === 'SEG' ? 'Segunda-feira' :
+                 d === 'TER' ? 'Terça-feira'   :
+                 d === 'QUA' ? 'Quarta-feira'  :
+                 d === 'QUI' ? 'Quinta-feira'  : 'Sexta-feira' }}
+            </div>
+
+            <!-- Linhas por horário -->
+            <ng-container *ngFor="let h of getTimeSlots(t.id_externo ?? t.id)">
+              <div class="time">{{ h.inicio }}–{{ h.fim }}</div>
+
+              <!-- Células dia x horário -->
+              <ng-container *ngFor="let d of ['SEG','TER','QUA','QUI','SEX']">
+                <div class="cell">
+                  <ng-container *ngFor="let a of getAulasDaTurma(t.id_externo ?? t.id)">
+                    <ng-container *ngIf="
+                      a.dia?.slice(0,3) === d &&
+                      a.horario_inicio?.slice(0,5) === h.inicio &&
+                      a.horario_termino?.slice(0,5) === h.fim
+                    ">
+                      <div class="disc">{{ getDisciplina(a.disciplinas) }}</div>
+                      <div class="prof">{{ getProfessor(a.professores) }}</div>
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ====== PROFESSORES (visível quando PROFESSORES está selecionado) ====== -->
+    <div class="professores-view">
+      <section *ngFor="let p of professores; let i = index" class="turma-block">
+        <!-- Toggle individual do professor (mostra/esconde a grade deste professor) -->
+        <input id="toggleProf{{ i }}" type="checkbox" class="visually-hidden" />
+        <label for="toggleProf{{ i }}" class="turma-chip">{{ p.nome }}</label>
+
+        <div class="turma-schedule">
+          <div class="schedule">
+            <!-- Cabeçalhos -->
+            <div class="header time">Horário</div>
+            <div class="header" *ngFor="let d of ['SEG','TER','QUA','QUI','SEX']">
+              {{ d === 'SEG' ? 'Segunda-feira' :
+                 d === 'TER' ? 'Terça-feira'   :
+                 d === 'QUA' ? 'Quarta-feira'  :
+                 d === 'QUI' ? 'Quinta-feira'  : 'Sexta-feira' }}
+            </div>
+
+            <!-- Linhas por horário (do professor) -->
+            <ng-container *ngFor="let h of getTimeSlotsProfessor(p.id_externo ?? p.id)">
+              <div class="time">{{ h.inicio }}–{{ h.fim }}</div>
+
+              <!-- Células dia x horário -->
+              <ng-container *ngFor="let d of ['SEG','TER','QUA','QUI','SEX']">
+                <div class="cell">
+                  <ng-container *ngFor="let a of getAulasDoProfessor(p.id_externo ?? p.id)">
+                    <ng-container *ngIf="
+                      a.dia?.slice(0,3) === d &&
+                      a.horario_inicio?.slice(0,5) === h.inicio &&
+                      a.horario_termino?.slice(0,5) === h.fim
+                    ">
+                      <div class="disc">{{ getDisciplina(a.disciplinas) }}</div>
+                      <div class="prof">{{ getTurmaNome(a.turma) }}</div>
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
